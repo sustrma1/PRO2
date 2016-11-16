@@ -3,7 +3,7 @@ package app;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-import Hra.HraciPlocha;
+import hra.HraciPlocha;
 
 public class FlappyHlavniApp extends JFrame{
 	private HraciPlocha hp;
