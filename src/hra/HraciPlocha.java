@@ -16,6 +16,10 @@ import obrazek.Obrazek;
 import obrazek.ZdrojObrazkuSoubor;
 
 public class HraciPlocha extends JPanel{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public static final int VYSKA = 800;
 	public static final int SIRKA = 600;
 	
@@ -23,10 +27,22 @@ public class HraciPlocha extends JPanel{
 	//rychlost behu pozadi
 	public static final int RYCHLOST = -2;
 	
+	//musi byt alespon tri zdi, jinak se zed nestihne posunotut
+	//za levy okraj = nestihne zajet z alevy okraj hraci plochy
+	//než je potøeba ji posunout pøed pravý okraj hrací plochy a
+	//vykreslit	
+	public static final int POCET_ZDI=4;
+	
+	private SeznamZdi seznamZdi;
+	private Zed aktualniZed;
+	private Zed predchoziZed;
+	
 	//TODO
 	private Hrac hrac;
 	private BufferedImage imgHrac;
 	private BufferedImage imgPozadi;
+	private BufferedImage imgZed;
+	private Zed zed;
 	private Timer casovacAnimace;
 	private boolean pauza = false;
 	private boolean hraBezi = false;
@@ -51,9 +67,31 @@ public class HraciPlocha extends JPanel{
 			e.printStackTrace();
 		}
 		
+		z.setZdroj(Obrazek.ZED.getKlic());
+		try {
+			imgZed = z.getObrazek();
+			zed.setObrazek(imgZed);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		seznamZdi = new SeznamZdi();
 		
 		
+	}
+	
+	private void vyrobZdi(int pocet){
+		Zed zed;
+		int vzdalenost = HraciPlocha.SIRKA;
 		
+		for (int i = 0; i < pocet; i++) {
+			zed = new Zed(vzdalenost);
+			seznamZdi.add(zed);
+			vzdalenost= vzdalenost + (HraciPlocha.SIRKA/2);
+		}
+		
+		vzdalenost = vzdalenost - HraciPlocha.SIRKA - Zed.SIRKA;
+		Zed.setVzdalenostPosledniZdi(vzdalenost);
 	}
 	
 	public void paint(Graphics g){
@@ -69,16 +107,23 @@ public class HraciPlocha extends JPanel{
 			g.drawString("posun pozadiX = "+posunPozadiX, 0, 10);
 		}
 		
+		for (Zed zed : seznamZdi) {
+			zed.paint(g);
+		}
+		
 		hrac.paint(g);
 	}
 	
 	private void posun(){
 		if(!pauza && hraBezi){
 			//TODO
+			
+			
+			for (Zed zed : seznamZdi) {
+				zed.posun();
+			}
+			
 			hrac.posun();
-			
-			
-			
 			
 			
 			//posub pozice hraci plochy (skrolovani)
@@ -142,6 +187,8 @@ public class HraciPlocha extends JPanel{
 
 	protected void pripravNovouHru() {
 		// TODO Auto-generated method stub
+		
+		vyrobZdi(POCET_ZDI);
 		
 	}
 	
