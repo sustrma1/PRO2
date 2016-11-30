@@ -1,6 +1,8 @@
 package hra;
 
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
@@ -9,6 +11,7 @@ public class Zed {
 	//rychlost pohybu zdi
 	public final static int RYCHLOST = -6;
 	public final static int MEZERA_VE_ZDI = 200;
+	public static final int BODY_ZA_ZED = 1;
 	public static int vzdalenostPosledniZdi;
 	//public static final int VZDLENOST_POSLEDNI_ZDI = 0;
 	
@@ -45,6 +48,11 @@ public class Zed {
 		//hroni cast zdi
 		g.drawImage(img, x,(-HraciPlocha.VYSKA)+(y-MEZERA_VE_ZDI), null);
 		
+		if(HraciPlocha.DEBUG){
+			g.setColor(Color.RED);
+			g.drawString("[x="+x+", y="+y+", vyska="+vyska+"]", x, y-5);
+		}
+		
 	}
 	
 	public void posun(){
@@ -78,4 +86,15 @@ public class Zed {
 		Zed.img = img;
 	}
 	
+	public Rectangle getMezSpodniCastiZdi(){
+		return new Rectangle(x,y,SIRKA,vyska);
+	}
+	
+	public Rectangle getMezHorniCasti() {
+		return new Rectangle(x, 0, SIRKA, HraciPlocha.VYSKA - (vyska+MEZERA_VE_ZDI));
+	}
+	
+	public void reset(){
+		vygenerujNahodneHodnotyProZed();
+	}
 }
