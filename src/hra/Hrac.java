@@ -30,7 +30,7 @@ public class Hrac {
 		rychlost = KOEF_RYCHLOST;
 	}
 	
-	//volá se po nárazu do tdi, kraje okna
+	//volá se po nárazu do zdi, kraje okna
 	public void reset() {
 		y = HraciPlocha.VYSKA/2;
 		rychlost = KOEF_RYCHLOST;

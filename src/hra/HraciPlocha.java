@@ -9,15 +9,16 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
+
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
+import obrazek.ManazerObrazku;
 import obrazek.Obrazek;
-import obrazek.ZdrojObrazkuSoubor;
+
 
 public class HraciPlocha extends JPanel{
 	/**
@@ -48,41 +49,16 @@ public class HraciPlocha extends JPanel{
 	private Font fontZpravy;
 	
 	private Hrac hrac;
-	private BufferedImage imgHrac;
 	private BufferedImage imgPozadi;
-	private BufferedImage imgZed;
-	private Zed zed;
 	private Timer casovacAnimace;
 	private boolean pauza = false;
 	private boolean hraBezi = false;
 	private int posunPozadiX = 0;
 	
-	public HraciPlocha() {
-		//TODO
-		ZdrojObrazkuSoubor z = new ZdrojObrazkuSoubor();
-		z.naplMapu();
-		z.setZdroj(Obrazek.POZADI.getKlic());
-		try {
-			imgPozadi = z.getObrazek();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		z.setZdroj(Obrazek.HRAC.getKlic());
-		try {
-			imgHrac = z.getObrazek();
-			hrac = new Hrac(imgHrac);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		z.setZdroj(Obrazek.ZED.getKlic());
-		try {
-			imgZed = z.getObrazek();
-			zed.setObrazek(imgZed);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public HraciPlocha(ManazerObrazku mo) {
+		imgPozadi = mo.getObrazek(Obrazek.POZADI);
+		hrac = new Hrac(mo.getObrazek(Obrazek.HRAC));
+		Zed.setObrazek(mo.getObrazek(Obrazek.ZED));
 		
 		seznamZdi = new SeznamZdi();
 		
@@ -161,6 +137,7 @@ public class HraciPlocha extends JPanel{
 					isKolizeSHraniciHraciPlochy(hrac)){
 				
 				ukonciAVyresetujHruPoNarazu();
+				
 				
 			} else {
 				
