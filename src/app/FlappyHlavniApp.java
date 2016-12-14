@@ -12,6 +12,7 @@ import javax.swing.SwingWorker;
 import hra.HraciPlocha;
 import obrazek.ManazerObrazku;
 import obrazek.ZdrojObrazkuSoubor;
+import obrazek.ZdrojObrazkuURL;
 
 public class FlappyHlavniApp extends JFrame{
 	private ManazerObrazku mo;
@@ -19,7 +20,7 @@ public class FlappyHlavniApp extends JFrame{
 	
 	public FlappyHlavniApp() {
 		mo = new ManazerObrazku(new ZdrojObrazkuSoubor());
-			
+		//mo = new ManazerObrazku(new ZdrojObrazkuURL());	
 		
 	}
 	

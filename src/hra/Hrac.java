@@ -22,6 +22,8 @@ public class Hrac {
 	private int rychlost;
 	
 	
+	private int c = 1;//animace barvy hrace
+	
 	public Hrac(BufferedImage img) {
 		this.img=img;
 		y = HraciPlocha.VYSKA/2;
@@ -52,11 +54,24 @@ public class Hrac {
 	public void posun(){
 		rychlost = rychlost + KOEF_ZRYCHLENI;
 		y = y + rychlost;
+		
+		
+		//animace hrace
+		/*if(c>240){
+			c=10;
+		}
+		else{
+			c+=10;
+		}*/
+		
 	}
 	
 	public void paint(Graphics g){
 		g.drawImage(img, x, y, null);
-		
+		/*animace hrace
+		g.setColor(new Color(c,c, c));
+		g.fillRect(x, y, Hrac.SIRKA, Hrac.VYSKA);
+		*/
 		if (HraciPlocha.DEBUG) {
 			g.setColor(Color.RED);
 			g.drawString("[x="+x+", y="+y+", rychlost="+rychlost+"]", x, y-5);
