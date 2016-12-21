@@ -26,6 +26,7 @@ public class ManazerObrazku {
 		pripravObrazek(Obrazek.HRAC);
 		pripravObrazek(Obrazek.POZADI);
 		pripravObrazek(Obrazek.ZED);
+		pripravObrazek(Obrazek.BONUS);
 	}
 
 	private BufferedImage nactiObrazek(Obrazek o) {

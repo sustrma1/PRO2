@@ -18,6 +18,7 @@ public class FlappyHlavniApp extends JFrame{
 	private ManazerObrazku mo;
 	
 	
+	
 	public FlappyHlavniApp() {
 		mo = new ManazerObrazku(new ZdrojObrazkuSoubor());
 		//mo = new ManazerObrazku(new ZdrojObrazkuURL());	

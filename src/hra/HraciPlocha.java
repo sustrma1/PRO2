@@ -49,6 +49,7 @@ public class HraciPlocha extends JPanel{
 	private Font fontZpravy;
 	
 	private Hrac hrac;
+	private Bonus bonus;
 	private BufferedImage imgPozadi;
 	private Timer casovacAnimace;
 	private boolean pauza = false;
@@ -61,6 +62,9 @@ public class HraciPlocha extends JPanel{
 		Zed.setObrazek(mo.getObrazek(Obrazek.ZED));
 		
 		seznamZdi = new SeznamZdi();
+		
+		bonus = new Bonus(mo.getObrazek(Obrazek.BONUS));
+		bonus.setSeznamZdi(seznamZdi);
 		
 		vyrobFontyALabely();
 		
@@ -118,6 +122,7 @@ public class HraciPlocha extends JPanel{
 		}
 		
 		hrac.paint(g);
+		bonus.paint(g);
 		
 		lbSkore.paint(g);
 		lbZprava.paint(g);
@@ -146,6 +151,7 @@ public class HraciPlocha extends JPanel{
 				}
 				
 				hrac.posun();
+				bonus.posun();
 				
 				//hrac prosel zdi bez narazu
 				//zjistit, kde se nachazi
@@ -158,6 +164,12 @@ public class HraciPlocha extends JPanel{
 					zvedniSkoreZed();
 					lbSkore.setText(skore + "");
 				} 
+				
+				if (isKolizeSBonusem(hrac)){
+					bonus.nastavNovyBonus();
+					zvedniSkoreBonus();
+					lbSkore.setText(skore + "");
+				}
 				
 			}
 			
@@ -173,6 +185,10 @@ public class HraciPlocha extends JPanel{
 		}
 	}
 	
+	private boolean isKolizeSBonusem(Hrac hrac) {
+		return bonus.getMez().intersects(hrac.getMez());
+	}
+
 	private void ukonciAVyresetujHruPoNarazu() {
 		hraBezi = false;
 		casovacAnimace.stop();
@@ -254,6 +270,7 @@ public class HraciPlocha extends JPanel{
 	private void vyresetujHru(){
 		resetujVsechnyZdi();
 		hrac.reset();
+		bonus.nastavNovyBonus();
 		//nejprve zovraz stare skore, aby hrac videl, kolik odu nasbiral
 		lbSkore.setText(skore + "");
 		//ale promenou skore pak vynuluj
@@ -266,6 +283,10 @@ public class HraciPlocha extends JPanel{
 	}
 	private void zvedniSkoreZed(){
 		skore= skore+Zed.BODY_ZA_ZED;
+	}
+	
+	private void zvedniSkoreBonus(){
+		skore=skore+Bonus.BODY_ZA_BONUS;
 	}
 
 	private void resetujVsechnyZdi() {
